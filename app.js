@@ -228,18 +228,30 @@ function computeAndRenderWarnings(ctx) {
 
     const w = t.warnings || {};
 
+    const warnGroups = {
+        precip: [], // Storm, Rain, Snow, Drizzle, Fog
+        wind:   [], // Wind speed, Wind chill
+        temp:   []  // Heat, Humidity, Near freezing, Ice, Swing, Drop
+    };
+
     const addWarn = (emoji, text) => {
         if (!text) return;
         const clone = DOM.tplWarning.content.cloneNode(true);
+        // Use innerHTML to allow line breaks or specific formatting if needed, 
+        // but textContent is safer if we just join with characters.
         clone.querySelector('.warning-text').textContent = emoji ? `${emoji}  ${text}` : text;
         container.appendChild(clone);
+    };
+
+    const pushWarn = (grp, emoji, text) => {
+        if (!text) return;
+        warnGroups[grp].push({ emoji, text });
     };
 
     const dayStart = dayIdx * 24;
     const dayEnd   = Math.min(dayStart + 24, hourly.time ? hourly.time.length : dayStart);
     if (dayEnd <= dayStart) { updateWarningsVisibility(); return; }
 
-    // Slice helpers for this day's hourly window
     const hSlice = arr => arr ? arr.slice(dayStart, dayEnd) : [];
     const hTimes = hSlice(hourly.time);
 
@@ -248,7 +260,6 @@ function computeAndRenderWarnings(ctx) {
         catch (e) { return ''; }
     };
 
-    // Finds contiguous ranges where condition holds, tracking peak value
     const findRanges = (arr, testFn, valFn) => {
         const ranges = [];
         let inRange = false, rangeStart = 0, peakVal = 0, peakIdx = 0;
@@ -305,41 +316,35 @@ function computeAndRenderWarnings(ctx) {
     const hasFog      = wcodes.some(c => fogCodes.includes(c))   || fogCodes.includes(dailyCode);
     const hasDrizzle  = wcodes.some(c => drizzleCodes.includes(c));
 
-    // Storm
+    // --- Collect Precipitation & Visibility ---
     if (hasStorm) {
         const ranges = findRanges(wcodes, c => stormCodes.includes(c));
-        addWarn('⛈️', (w.storm || 'Thunderstorm risk.') + toTimeDetail(ranges));
-    }
-    // Rain (only if no storm)
-    else if (hasRainCode || maxPrecip >= 20) {
+        pushWarn('precip', '⛈️', (w.storm || 'Thunderstorm risk.') + toTimeDetail(ranges));
+    } else if (hasRainCode || maxPrecip >= 20) {
         const ranges = findRanges(wcodes, c => rainCodes.includes(c), c => c);
         const isHeavy = wcodes.some(c => [65,67,82].includes(c)) || maxPrecip >= 70;
         const isMod   = wcodes.some(c => [63,66,81,61].includes(c)) || maxPrecip >= 45;
         const msg = isHeavy ? (w.rainHeavy || w.rain || 'Heavy rain.')
                   : isMod   ? (w.rain || 'Rain expected.')
                   :           (w.rainLight || w.rain || 'Light rain.');
-        addWarn('🌧️', msg + toTimeDetail(ranges));
-    }
-    // Drizzle only
-    else if (hasDrizzle && maxPrecip >= 15) {
+        pushWarn('precip', '🌧️', msg + toTimeDetail(ranges));
+    } else if (hasDrizzle && maxPrecip >= 15) {
         const ranges = findRanges(wcodes, c => drizzleCodes.includes(c));
-        addWarn('🌦️', (w.rainLight || w.rain || 'Light drizzle possible.') + toTimeDetail(ranges));
+        pushWarn('precip', '🌦️', (w.rainLight || w.rain || 'Light drizzle possible.') + toTimeDetail(ranges));
     }
 
-    // Snow (separate from storm)
     if (hasSnowCode && !hasStorm) {
         const ranges = findRanges(wcodes, c => snowCodes.includes(c));
         const isHeavy = wcodes.some(c => [75,77,86].includes(c)) || maxPrecip >= 60;
-        addWarn('❄️', (isHeavy ? (w.snowHeavy || 'Heavy snow.') : (w.snowLight || 'Light snow.')) + toTimeDetail(ranges));
+        pushWarn('precip', '❄️', (isHeavy ? (w.snowHeavy || 'Heavy snow.') : (w.snowLight || 'Light snow.')) + toTimeDetail(ranges));
     }
 
-    // Fog
     if (hasFog) {
         const ranges = findRanges(wcodes, c => fogCodes.includes(c));
-        addWarn('🌫️', (w.fog || 'Dense fog expected — reduced visibility.') + toTimeDetail(ranges));
+        pushWarn('precip', '🌫️', (w.fog || 'Dense fog expected — reduced visibility.') + toTimeDetail(ranges));
     }
 
-    // Wind
+    // --- Collect Wind ---
     if (windSpeeds.length) {
         const maxWind = Math.round(Math.max(...windSpeeds));
         if (maxWind >= 25) {
@@ -348,68 +353,59 @@ function computeAndRenderWarnings(ctx) {
             const msg = maxWind >= 60 ? (w.windExtreme || w.windStrong || w.wind || `Extreme wind up to ${maxWind} km/h.`)
                       : maxWind >= 45 ? (w.windStrong || w.wind || `Strong gusts up to ${maxWind} km/h.`)
                       :                 (w.wind || `Wind up to ${maxWind} km/h.`);
-            addWarn('💨', msg + toTimeDetail(ranges));
+            pushWarn('wind', '💨', msg + toTimeDetail(ranges));
         }
     }
 
-    // Feels-like cold (wind chill)
+    // --- Collect Temp & Feels ---
     if (appTemps.length && temps.length) {
         const minApp    = Math.min(...appTemps);
         const minActual = Math.min(...temps);
         if (minActual - minApp >= 5 && minApp <= 8) {
             const ranges = findRanges(appTemps, v => (minActual - v) >= 4 && v <= 10);
-            addWarn('🥶', (w.coldFeel || `Feels like ${minApp}° — wind chill bites hard.`) + toTimeDetail(ranges));
+            pushWarn('wind', '🥶', (w.coldFeel || `Feels like ${minApp}° — wind chill bites hard.`) + toTimeDetail(ranges));
         }
-    }
 
-    // Feels-like hot (heat index)
-    if (appTemps.length && temps.length) {
         const maxApp    = Math.max(...appTemps);
         const maxActual = Math.max(...temps);
         if (maxApp - maxActual >= 4 && maxApp >= 30) {
             const ranges = findRanges(appTemps, v => v >= 30 && (v - (temps[appTemps.indexOf(v)] || v)) >= 3);
-            addWarn('🌢️', (w.hotHumid || `Feels like ${maxApp}° — humidity makes it muggy.`) + toTimeDetail(ranges));
+            pushWarn('temp', '🌢️', (w.hotHumid || `Feels like ${maxApp}° — humidity makes it muggy.`) + toTimeDetail(ranges));
         }
     }
 
-    // High humidity (without rain/snow)
     if (humids.length && !hasRainCode && !hasSnowCode) {
         const maxHumid = Math.max(...humids);
         if (maxHumid >= 85 && todayMax >= 22) {
-            addWarn('💧', w.humid || w.hotHumid || `High humidity (${maxHumid}%) — heavier than the temperature suggests.`);
+            pushWarn('temp', '💧', w.humid || w.hotHumid || `High humidity (${maxHumid}%) — heavier than the temperature suggests.`);
         }
     }
 
-    // Extreme / moderate heat
     if (todayMax >= 35) {
         const ranges = findRanges(temps, v => v >= 35);
-        addWarn('🔥', (w.heatExtreme || `Extreme heat — ${todayMax}°C. Stay hydrated.`) + toTimeDetail(ranges));
+        pushWarn('temp', '🔥', (w.heatExtreme || `Extreme heat — ${todayMax}°C. Stay hydrated.`) + toTimeDetail(ranges));
     } else if (todayMax >= 30) {
-        addWarn('☀️', w.heat || `Hot day ahead — peak ${todayMax}°C.`);
+        pushWarn('temp', '☀️', w.heat || `Hot day ahead — peak ${todayMax}°C.`);
     }
 
-    // Near freezing
     if (todayMin < 3) {
         const ranges = findRanges(temps, v => v < 3);
-        addWarn('🧊', (w.coldExtreme || 'Near freezing — dress very warm.') + toTimeDetail(ranges));
+        pushWarn('temp', '🧊', (w.coldExtreme || 'Near freezing — dress very warm.') + toTimeDetail(ranges));
 
-        // Black ice risk: sub-zero hours with rain or snow codes
         if (todayMin < -1) {
             const precipCodes = [...rainCodes, ...snowCodes];
             const iceHours = temps.map((v, i) => v < -1 && precipCodes.includes(wcodes[i]));
             const iceRanges = findRanges(iceHours, v => v === true);
             if (iceRanges.length) {
-                addWarn('⚠️', (w.iceRisk || 'Freezing precipitation — black ice possible.') + toTimeDetail(iceRanges));
+                pushWarn('temp', '⚠️', (w.iceRisk || 'Freezing precipitation — black ice possible.') + toTimeDetail(iceRanges));
             }
         }
     }
 
-    // Big swing
     if (swing >= 12) {
-        addWarn('🌡️', w.swing || `${swing}° swing today — dress in layers.`);
+        pushWarn('temp', '🌡️', w.swing || `${swing}° swing today — dress in layers.`);
     }
 
-    // Evening temperature drop
     if (swing > 8 && todayMin < 14) {
         const threshold = todayMin + 4;
         const dropRanges = findRanges(temps, (v, i) => i >= Math.floor(temps.length * 0.5) && v <= threshold);
@@ -418,8 +414,22 @@ function computeAndRenderWarnings(ctx) {
             const t0 = rangeStr(dropRanges[0]);
             if (t0) timeDetail = ` (from ${t0})`;
         }
-        addWarn('🌙', (w.drop || 'Evening gets cold fast — take a jacket.') + timeDetail);
+        pushWarn('temp', '🌙', (w.drop || 'Evening gets cold fast — take a jacket.') + timeDetail);
     }
+
+    // --- Render Combined Groups ---
+    const renderGroup = (grp, mainEmoji) => {
+        const items = warnGroups[grp];
+        if (items.length === 0) return;
+        
+        // Combine all messages into one card
+        const combinedText = items.map(it => `${it.emoji} ${it.text}`).join(' • ');
+        addWarn(mainEmoji, combinedText);
+    };
+
+    renderGroup('precip', '⚠️');
+    renderGroup('wind',   '💨');
+    renderGroup('temp',   '🌡️');
 
     updateWarningsVisibility();
 }
