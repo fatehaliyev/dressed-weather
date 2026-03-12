@@ -12,7 +12,8 @@ const translations = {
             days: ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"],
             backToToday: "← Back to Today",
             detailCondition: "Condition", detailHigh: "High", detailLow: "Low",
-            detailRain: "Rain chance", detailSunrise: "Sunrise", detailSunset: "Sunset"
+            detailRain: "Rain chance", detailSunrise: "Sunrise", detailSunset: "Sunset",
+            tempUnit: "Temp Unit"
         },
         clothes: {
             thermal: "Thermals", heavyCoat: "Heavy Coat", winterCoat: "Winter Coat",
@@ -93,7 +94,8 @@ const translations = {
             days: ["Baz","Baz.e","Çər.a","Çər","Cüm.a","Cüm","Şən"],
             backToToday: "← Bu günə qayıt",
             detailCondition: "Hava", detailHigh: "Maks", detailLow: "Min",
-            detailRain: "Yağış ehtimalı", detailSunrise: "Günçıxma", detailSunset: "Günbatma"
+            detailRain: "Yağış ehtimalı", detailSunrise: "Günçıxma", detailSunset: "Günbatma",
+            tempUnit: "Temperatur Vahidi"
         },
         clothes: {
             thermal: "Termal", heavyCoat: "Qalın Kurtka", winterCoat: "Qış Gödəkçəsi",
@@ -174,7 +176,8 @@ const translations = {
             days: ["Paz","Pzt","Sal","Çar","Per","Cum","Cmt"],
             backToToday: "← Bugüne dön",
             detailCondition: "Durum", detailHigh: "Maks", detailLow: "Min",
-            detailRain: "Yağış ihtimali", detailSunrise: "Gündoğumu", detailSunset: "Günbatımı"
+            detailRain: "Yağış ihtimali", detailSunrise: "Gündoğumu", detailSunset: "Günbatımı",
+            tempUnit: "Sıcaklık Birimi"
         },
         clothes: {
             thermal: "Termal", heavyCoat: "Kalın Mont", winterCoat: "Kışlık Mont",
@@ -238,7 +241,7 @@ const translations = {
             level3: { head: "Serin ama idare eder.", text: "Hafif ceket veya kapşonlu yeterli. Akşam {low}°C'ye düşecek — ekstra bir katman al." },
             level4: { head: "Ilık ve rahat.", text: "Uzun kollu tişört veya ince kapşonlu üstüne pantolon. {high}°C'ye çıkacak, sonrası için ceket akıllıca." },
             level5: { head: "Sıcak ve hoş.", text: "Sadece tişört ve kot — {high}°C'ye kadar güzel bir gün." },
-            level6: { head: "Isınıyor ortalık.", text: "Sadece hafif, nefes alan kumaşlar. {low}°C'nin altına düşmeyecek." }
+            level6: { head: "Isınıyor ortalık.", text: "Yalnızca yüngül, nəfəs alan parçalar. {low}°C-dən aşağı düşməyəcək." }
         }
     },
 
@@ -255,7 +258,8 @@ const translations = {
             days: ["So","Mo","Di","Mi","Do","Fr","Sa"],
             backToToday: "← Zurück zu Heute",
             detailCondition: "Wetter", detailHigh: "Max", detailLow: "Min",
-            detailRain: "Regenwahrscheinlichkeit", detailSunrise: "Sonnenaufgang", detailSunset: "Sonnenuntergang"
+            detailRain: "Regenwahrscheinlichkeit", detailSunrise: "Sonnenaufgang", detailSunset: "Sonnenuntergang",
+            tempUnit: "Temperatureinheit"
         },
         clothes: {
             thermal: "Thermo", heavyCoat: "Dicker Mantel", winterCoat: "Wintermantel",
@@ -336,7 +340,8 @@ const translations = {
             days: ["Dim","Lun","Mar","Mer","Jeu","Ven","Sam"],
             backToToday: "← Retour à Aujourd'hui",
             detailCondition: "Conditions", detailHigh: "Max", detailLow: "Min",
-            detailRain: "Prob. pluie", detailSunrise: "Lever", detailSunset: "Coucher"
+            detailRain: "Prob. pluie", detailSunrise: "Lever", detailSunset: "Coucher",
+            tempUnit: "Unité de Temp."
         },
         clothes: {
             thermal: "Thermique", heavyCoat: "Manteau Lourd", winterCoat: "Manteau d'Hiver",
@@ -417,7 +422,8 @@ const translations = {
             days: ["Вс","Пн","Вт","Ср","Чт","Пт","Сб"],
             backToToday: "← Сегодня",
             detailCondition: "Погода", detailHigh: "Макс", detailLow: "Мин",
-            detailRain: "Вероятность осадков", detailSunrise: "Рассвет", detailSunset: "Закат"
+            detailRain: "Вероятность осадков", detailSunrise: "Рассвет", detailSunset: "Закат",
+            tempUnit: "Един. темп."
         },
         clothes: {
             thermal: "Термобелье", heavyCoat: "Теплая Куртка", winterCoat: "Зимняя Куртка",
@@ -498,7 +504,8 @@ const translations = {
             days: ["Dom","Lun","Mar","Mié","Jue","Vie","Sáb"],
             backToToday: "← Volver a Hoy",
             detailCondition: "Condición", detailHigh: "Máx", detailLow: "Mín",
-            detailRain: "Prob. lluvia", detailSunrise: "Amanecer", detailSunset: "Atardecer"
+            detailRain: "Prob. lluvia", detailSunrise: "Amanecer", detailSunset: "Atardecer",
+            tempUnit: "Unidad Temp."
         },
         clothes: {
             thermal: "Térmica", heavyCoat: "Abrigo Grueso", winterCoat: "Abrigo de Invierno",

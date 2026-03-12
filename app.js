@@ -1,6 +1,7 @@
 // State
 let currentLang = localStorage.getItem('dressed_lang') || 'en';
 let currentWeatherData = null;
+let currentUnit = localStorage.getItem('dressed_unit') || 'c';
 let currentLocName = 'Current Location';
 let currentHourlyIndex = 0;
 let currentTimezoneId = null;
@@ -53,18 +54,29 @@ const DOM = {
 
 // --- Helpers ---
 
+function convertTemp(c) {
+    if (currentUnit === 'f') return (c * 9/5) + 32;
+    return c;
+}
+
+function formatTemp(c) {
+    return Math.round(convertTemp(c));
+}
+
 function formatTime(isoString) {
     return new Date(isoString).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
 }
 
 function animateTemp(element, target) {
+    const isF = currentUnit === 'f';
+    const targetVal = isF ? Math.round((target * 9/5) + 32) : Math.round(target);
     let current = 0;
-    const step = Math.max(1, Math.round(Math.abs(target) / 30));
+    const step = Math.max(1, Math.round(Math.abs(targetVal) / 30));
     element.textContent = "0";
     clearInterval(element._timer);
     element._timer = setInterval(() => {
-        if (current < target)      { current += step; if (current > target) current = target; }
-        else if (current > target) { current -= step; if (current < target) current = target; }
+        if (current < targetVal)      { current += step; if (current > targetVal) current = targetVal; }
+        else if (current > targetVal) { current -= step; if (current < targetVal) current = targetVal; }
         else { clearInterval(element._timer); }
         element.textContent = current;
     }, 30);
@@ -591,10 +603,14 @@ function updateMainWidget(hourIndex, data) {
     const wDetails = getWeatherDetails(wcode, isDay);
     DOM.icon.textContent      = wDetails.icon;
     DOM.condition.textContent = wDetails.desc;
-    DOM.feels.textContent    = `${Math.round(appTemp || 0)}°`;
+    DOM.feels.textContent    = `${formatTemp(appTemp || 0)}°`;
     DOM.humidity.textContent = `${Math.round(hum || 0)}%`;
     DOM.wind.textContent     = `${Math.round(wind || 0)} km/h`;
     DOM.uv.textContent       = Math.round(uv || 0);
+
+    // Update temp sign in hero
+    const tempDegree = document.querySelector('.temp-degree');
+    if (tempDegree) tempDegree.textContent = currentUnit === 'f' ? '°F' : '°';
 
     // Recompute warnings for the day that contains this hour
     if (data?.daily && data?.hourly) {
@@ -628,7 +644,7 @@ function renderHourlyAndChart(dayIdx, data, options = {}) {
         const icon    = getWeatherDetails(hourly.weather_code[i], hourly.is_day[i] !== 0).icon;
 
         chartLabels.push(`${hourNum}:00`);
-        chartData.push(temp);
+        chartData.push(formatTemp(hourly.temperature_2m[i]));
 
         const item = document.createElement('div');
         item.className = `hourly-item ${i === activeIdx ? 'active' : ''}`;
@@ -636,7 +652,7 @@ function renderHourlyAndChart(dayIdx, data, options = {}) {
         item.innerHTML = `
             <span class="hourly-time">${isToday && i === currentHourlyIndex ? 'Now' : hourNum + ':00'}</span>
             <span class="hourly-icon">${icon}</span>
-            <span class="hourly-temp">${temp}°</span>
+            <span class="hourly-temp">${formatTemp(hourly.temperature_2m[i])}°</span>
         `;
         item.addEventListener('click', () => {
             document.querySelectorAll('.hourly-item').forEach(el => el.classList.remove('active'));
@@ -719,7 +735,7 @@ function renderStory(dayIdx, data) {
     let dropObj = { temp: 999,  time: '' };
 
     for (let i = storyStart; i <= endIdx; i++) {
-        const temp = Math.round(hourly.temperature_2m[i]);
+        const temp = formatTemp(hourly.temperature_2m[i]);
         const time = formatTime(hourly.time[i]);
         if (temp >= peakObj.temp) { peakObj.temp = temp; peakObj.time = time; }
         if (temp <= dropObj.temp) { dropObj.temp = temp; dropObj.time = time; }
@@ -727,7 +743,7 @@ function renderStory(dayIdx, data) {
 
     const isDay      = isToday ? current.is_day !== 0 : hourly.is_day[storyStart] !== 0;
     const wDetails   = getWeatherDetails(isToday ? current.weather_code : data.daily.weather_code[dayIdx], isDay);
-    const displayTemp = isToday ? Math.round(current.temperature_2m) : Math.round(data.daily.temperature_2m_max[dayIdx]);
+    const displayTemp = isToday ? formatTemp(current.temperature_2m) : formatTemp(data.daily.temperature_2m_max[dayIdx]);
     const hoursLeft   = Math.max(0, endIdx - storyStart);
 
     DOM.story.innerHTML = t.story
@@ -760,8 +776,8 @@ function renderWeeklyForecast(daily, t) {
 
         const date   = new Date(dateStr + 'T12:00:00');
         const isToday = idx === 0;
-        const high   = Math.round(allHighs[idx]);
-        const low    = Math.round(allLows[idx]);
+        const high   = formatTemp(allHighs[idx]);
+        const low    = formatTemp(allLows[idx]);
         const code   = daily.weather_code[idx];
         const wDetail = getWeatherDetails(code, true);
         const precipPct = daily.precipitation_probability_max?.[idx] ?? null;
@@ -968,7 +984,7 @@ function selectForecastDay(dayIdx) {
         animateTemp(DOM.temp, avgTemp);
         DOM.icon.textContent      = wDetails.icon;
         DOM.condition.textContent = wDetails.desc;
-        DOM.feels.textContent    = `${Math.round(hourly.apparent_temperature?.[noonIdx] ?? avgTemp)}°`;
+        DOM.feels.textContent    = `${formatTemp(hourly.apparent_temperature?.[noonIdx] ?? avgTemp)}°`;
         DOM.humidity.textContent = `${Math.round(hourly.relative_humidity_2m?.[noonIdx] ?? 0)}%`;
         DOM.wind.textContent     = `${Math.round(hourly.wind_speed_10m[noonIdx])} km/h`;
         DOM.uv.textContent       = Math.round(hourly.uv_index?.[noonIdx] || 0);
@@ -982,10 +998,10 @@ function selectForecastDay(dayIdx) {
     const precipSlice = hourly.precipitation_probability?.slice(dayStart, Math.min(dayStart + 3, hourly.precipitation_probability.length)) || [];
 
     renderInsights({
-        temp:      isToday ? Math.round(data.current.temperature_2m) : Math.round(hourly.temperature_2m[noonIdx]),
-        feelsLike: Math.round(hourly.apparent_temperature?.[noonIdx] ?? hourly.temperature_2m[noonIdx]),
-        min:       Math.round(daily.temperature_2m_min[dayIdx]),
-        max:       Math.round(daily.temperature_2m_max[dayIdx]),
+        temp:      isToday ? formatTemp(data.current.temperature_2m) : formatTemp(hourly.temperature_2m[noonIdx]),
+        feelsLike: formatTemp(hourly.apparent_temperature?.[noonIdx] ?? hourly.temperature_2m[noonIdx]),
+        min:       formatTemp(daily.temperature_2m_min[dayIdx]),
+        max:       formatTemp(daily.temperature_2m_max[dayIdx]),
         code:      daily.weather_code[dayIdx],
         wind:      hourly.wind_speed_10m[noonIdx],
         uv:        hourly.uv_index?.[noonIdx] || 0,
@@ -1093,6 +1109,20 @@ function startApp() {
 
 function init() {
     updateLangUI();
+
+    // Init unit toggle UI
+    document.querySelectorAll('.unit-pill').forEach(pill => {
+        pill.classList.toggle('active', pill.dataset.unit === currentUnit);
+        pill.addEventListener('click', () => {
+            if (pill.classList.contains('active')) return;
+            currentUnit = pill.dataset.unit;
+            localStorage.setItem('dressed_unit', currentUnit);
+            document.querySelectorAll('.unit-pill').forEach(p => p.classList.remove('active'));
+            pill.classList.add('active');
+            if (currentWeatherData) renderUI(currentWeatherData);
+        });
+    });
+
     document.getElementById('app').style.opacity = 1;
 
     if (!localStorage.getItem('dressed_lang')) {

@@ -39,6 +39,13 @@ header { display: flex; justify-content: space-between; align-items: center; mar
 .header-actions { display: flex; gap: 12px; align-items: center; }
 .lang-btn { background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border); border-radius: 50%; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--text-muted); transition: all 0.2s; font-size: 16px; }
 .lang-btn:hover { color: var(--accent-gold); border-color: rgba(201, 169, 110, 0.3); }
+
+/* Unit Toggle */
+.unit-toggle { background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border); border-radius: 100px; padding: 3px; display: flex; gap: 2px; }
+.unit-pill { font-size: 11px; font-weight: 700; color: var(--text-muted); padding: 5px 10px; border-radius: 100px; cursor: pointer; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+.unit-pill.active { background: var(--accent-gold); color: var(--bg); box-shadow: 0 2px 8px rgba(201, 169, 110, 0.3); }
+.unit-pill:not(.active):hover { color: var(--text-primary); background: rgba(255, 255, 255, 0.05); }
+
 .live-clock { font-size: 13px; color: var(--text-muted); letter-spacing: 0.5px; background: rgba(255, 255, 255, 0.03); padding: 6px 12px; border-radius: 20px; border: 1px solid var(--border); display: flex; align-items: center; gap: 6px; }
 .live-indicator { width: 6px; height: 6px; background-color: var(--accent-gold); border-radius: 50%; box-shadow: 0 0 8px var(--accent-gold); animation: pulse 2s infinite; }
 @keyframes pulse { 0% { opacity: 1; box-shadow: 0 0 8px var(--accent-gold); } 50% { opacity: 0.4; box-shadow: 0 0 2px var(--accent-gold); } 100% { opacity: 1; box-shadow: 0 0 8px var(--accent-gold); } }
