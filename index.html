@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Dressed. | Weather & Outfits</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=DM+Serif+Display:ital@0;1&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="ambient-bg">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+    </div>
+
+    <!-- Language Modal -->
+    <div id="lang-modal">
+        <div class="modal-card">
+            <div class="modal-logo">Dressed<span class="modal-logo-dot">.</span></div>
+            <div class="modal-subtitle" id="ui-choose-lang">Choose your language</div>
+            <div class="lang-grid" id="lang-grid"></div>
+        </div>
+    </div>
+
+    <!-- App -->
+    <div id="app" style="opacity: 0; transition: opacity 0.5s;">
+        <header>
+            <div class="logo">Dressed<span class="logo-dot">.</span></div>
+            <div class="header-actions">
+                <button class="lang-btn" id="open-lang-btn" title="Language">🌐</button>
+                <div class="live-clock">
+                    <div class="live-indicator"></div><span id="clock-display">--:--</span>
+                </div>
+            </div>
+        </header>
+
+        <div class="search-container">
+            <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input type="text" id="city-search" class="search-bar" placeholder="Search city..." autocomplete="off">
+            <button class="location-btn" id="geo-btn">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polygon points="3 11 22 2 13 21 11 13 3 11"></polygon>
+                </svg>
+            </button>
+            <div id="search-suggestions" class="search-suggestions"></div>
+        </div>
+
+        <div id="error-state" class="error-message"></div>
+
+        <!-- Loading skeleton -->
+        <div id="loading-state">
+            <div class="bento-card main-weather"
+                style="padding: 60px 24px; opacity: 1; transform: none; animation: none;">
+                <div class="skeleton sk-text" style="width: 120px; margin: 0 auto 20px;"></div>
+                <div class="skeleton sk-temp"></div>
+                <div class="skeleton sk-text" style="width: 160px; margin: 0 auto 40px;"></div>
+                <div style="display: flex; gap: 40px;">
+                    <div class="skeleton sk-circle"></div>
+                    <div class="skeleton sk-circle"></div>
+                    <div class="skeleton sk-circle"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="content-state">
+            <!-- Main weather + outfit combined card -->
+            <div class="bento-card combined-top-card js-anim"
+                style="animation-delay: 0.1s; padding: 0; overflow: hidden; display: flex; flex-direction: column; background: var(--surface);">
+                <div class="main-weather"
+                    style="border-radius: 0; border: none; padding: 48px 24px 40px; background: linear-gradient(180deg, rgba(201, 169, 110, 0.05) 0%, rgba(26,24,20,0) 100%); border-bottom: 1px solid rgba(255,255,255,0.05);">
+                    <div class="location-name">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                            <circle cx="12" cy="10" r="3"></circle>
+                        </svg>
+                        <span id="location-text">...</span>
+                        <span id="day-badge" class="day-badge hidden">← Today</span>
+                    </div>
+                    <div class="temp-display"><span id="current-temp">0</span><span class="temp-degree">°</span></div>
+                    <div class="condition-icon" id="current-icon"></div>
+                    <div class="condition-text" id="current-condition">...</div>
+                    <div class="stats-row">
+                        <div class="stat-item"><span class="stat-value" id="stat-feels">--°</span><span
+                                class="stat-label" id="lbl-feels">...</span></div>
+                        <div class="stat-item"><span class="stat-value" id="stat-humidity">--%</span><span
+                                class="stat-label" id="lbl-humidity">...</span></div>
+                        <div class="stat-item"><span class="stat-value" id="stat-wind">--</span><span class="stat-label"
+                                id="lbl-wind">...</span></div>
+                        <div class="stat-item"><span class="stat-value" id="stat-uv">--</span><span class="stat-label"
+                                id="lbl-uv">...</span></div>
+                    </div>
+                </div>
+                <div class="outfit-card-inner" style="background: rgba(255,255,255,0.01); padding: 24px 24px 32px;">
+                    <div class="story-title" style="color: rgba(201, 169, 110, 0.7);" id="lbl-outfit-title">...</div>
+                    <div class="outfit-tags" id="outfit-tags"></div>
+                    <div class="outfit-headline" id="outfit-headline">...</div>
+                    <div class="outfit-advice" id="outfit-advice">...</div>
+                    <div class="outfit-insights" id="outfit-insights"></div>
+                </div>
+            </div>
+
+            <!-- Story -->
+            <div class="bento-card story-card js-anim" style="animation-delay: 0.2s;">
+                <div class="story-title" id="lbl-story-title">...</div>
+                <div class="story-content" id="day-story">...</div>
+            </div>
+
+            <!-- Warnings (JS) -->
+            <div id="warnings-container"></div>
+
+            <!-- Hourly scroll -->
+            <div class="hourly-wrapper js-anim" style="animation-delay: 0.25s;">
+                <button class="hourly-arrow prev" id="hourly-prev">&#8592;</button>
+                <div class="hourly-container" id="hourly-scroll"></div>
+                <button class="hourly-arrow next" id="hourly-next">&#8594;</button>
+            </div>
+
+            <!-- Temperature chart -->
+            <div class="bento-card chart-card js-anim" style="animation-delay: 0.3s;">
+                <div class="story-title" id="lbl-chart-title">...</div>
+                <div class="chart-container"><canvas id="tempChart"></canvas></div>
+            </div>
+
+            <!-- Sunrise / Sunset -->
+            <div class="sun-row js-anim" style="animation-delay: 0.35s;">
+                <div class="bento-card sun-card" style="opacity: 1; transform: none; animation: none;">
+                    <div class="sun-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path
+                                d="M12 2v4 M12 18v4 M4.93 4.93l2.83 2.83 M16.24 16.24l2.83 2.83 M2 12h4 M18 12h4 M4.93 19.07l2.83-2.83 M16.24 7.76l2.83-2.83">
+                            </path>
+                        </svg></div>
+                    <div>
+                        <div class="sun-time" id="sunrise-time">--:--</div>
+                        <div class="sun-label" id="lbl-sunrise">...</div>
+                    </div>
+                </div>
+                <div class="bento-card sun-card" style="opacity: 1; transform: none; animation: none;">
+                    <div class="sun-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path
+                                d="M12 2v4 M4.93 4.93l2.83 2.83 M2 12h4 M18 12h4 M4.93 19.07l2.83-2.83 M16.24 7.76l2.83-2.83 M12 22A10 10 0 0 0 12 2v20z">
+                            </path>
+                        </svg></div>
+                    <div>
+                        <div class="sun-time" id="sunset-time">--:--</div>
+                        <div class="sun-label" id="lbl-sunset">...</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 7-day forecast -->
+            <div class="bento-card forecast-card js-anim" style="animation-delay: 0.4s;">
+                <div class="story-title" style="margin-bottom: 16px;" id="lbl-forecast-title">7-DAY FORECAST</div>
+                <div id="weekly-forecast"></div>
+            </div>
+
+            <footer id="last-updated"></footer>
+        </div>
+    </div>
+
+    <!-- Warning card template -->
+    <template id="tpl-warning">
+        <div class="bento-card warning-card" style="opacity: 1; transform: none;">
+            <div class="warning-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path
+                        d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z M12 9v4 M12 17h.01">
+                    </path>
+                </svg>
+            </div>
+            <div class="warning-text"></div>
+        </div>
+    </template>
+
+    <script src="translations.js"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>
