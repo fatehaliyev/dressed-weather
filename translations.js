@@ -70,14 +70,14 @@ const translations = {
             coldExtreme: "Near freezing — dress very warm, cover your extremities.",
             iceRisk: "Freezing rain or snow below 0° — black ice likely on roads. Take it slow."
         },
-        story: "It's currently <span class='story-highlight'>{current}°C</span> and {cond}. It'll peak at <span class='story-highlight'>{high}°C</span> around {highTime}. By {lowTime} it drops down to <span class='story-highlight'>{low}°C</span>.",
+        story: "It's currently <span class='story-highlight'>{current}{unit}</span> and {cond}. It'll peak at <span class='story-highlight'>{high}{unit}</span> around {highTime}. By {lowTime} it drops down to <span class='story-highlight'>{low}{unit}</span>.",
         outfit: {
-            level1: { head: "Bitter cold. Gear up.", text: "Heavy thermals, a serious winter coat, and boots. It won't crack {high}°C today." },
-            level2: { head: "Cold day ahead.", text: "Layer a warm sweater under a winter coat, solid jeans. It starts at {low}°C and doesn't warm up much." },
-            level3: { head: "Cool but manageable.", text: "A light jacket or hoodie will do. It'll drop to {low}°C later, so bring an extra layer." },
-            level4: { head: "Mild and easy.", text: "A long sleeve or light hoodie over chinos. It'll reach {high}°C, but a jacket for later is smart." },
-            level5: { head: "Warm and pleasant.", text: "Just a t-shirt and jeans — nice day peaking at {high}°C." },
-            level6: { head: "Getting hot.", text: "Light breathable fabrics only. Shorts and sandals. It won't drop below {low}°C." }
+            level1: { head: "Bitter cold. Gear up.", text: "Heavy thermals, a serious winter coat, and boots. It won't crack {high}{unit} today." },
+            level2: { head: "Cold day ahead.", text: "Layer a warm sweater under a winter coat, solid jeans. It starts at {low}{unit} and doesn't warm up much." },
+            level3: { head: "Cool but manageable.", text: "A light jacket or hoodie will do. It'll drop to {low}{unit} later, so bring an extra layer." },
+            level4: { head: "Mild and easy.", text: "A long sleeve or light hoodie over chinos. It'll reach {high}{unit}, but a jacket for later is smart." },
+            level5: { head: "Warm and pleasant.", text: "Just a t-shirt and jeans — nice day peaking at {high}{unit}." },
+            level6: { head: "Getting hot.", text: "Light breathable fabrics only. Shorts and sandals. It won't drop below {low}{unit}." }
         }
     },
 
@@ -152,14 +152,14 @@ const translations = {
             coldExtreme: "Donma həddindədir — çox qalın geyin, əl-ayaqlarını qoru.",
             iceRisk: "0°-dən aşağıda yağış və ya qar — yollarda buz bağlaya bilər. Ehtiyatlı ol."
         },
-        story: "Hazırda <span class='story-highlight'>{current}°C</span> və {cond}. Saat {highTime}-da <span class='story-highlight'>{high}°C</span>-ə çatacaq. {lowTime}-da isə <span class='story-highlight'>{low}°C</span>-ə düşəcək.",
+        story: "Hazırda <span class='story-highlight'>{current}{unit}</span> və {cond}. Saat {highTime}-da <span class='story-highlight'>{high}{unit}</span>-ə çatacaq. {lowTime}-da isə <span class='story-highlight'>{low}{unit}</span>-ə düşəcək.",
         outfit: {
-            level1: { head: "Çox soyuqdur. Yaxşı geyinin.", text: "Qalın termal alt paltarı, ciddi qış gödəkçəsi və çəkmə. Bu gün {high}°C-dən yuxarı çıxmayacaq." },
-            level2: { head: "Soyuq gün.", text: "Qış gödəkçəsinin altına isti sviter, yaxşı cins. {low}°C ilə başlayır, çox da isinmir." },
-            level3: { head: "Serin amma olar.", text: "Yüngül gödəkçə və ya hudi kifayətdir. Axşam {low}°C-ə düşəcək — əlavə qat götür." },
-            level4: { head: "Mülayim gün.", text: "Uzun qol və ya yüngül hudi üstündə şalvar. {high}°C-ə çatacaq, sonradan gödəkçə yaxşı olar." },
-            level5: { head: "İsti və xoş.", text: "Sadəcə köynək və cins — {high}°C-ə qədər rahat gün." },
-            level6: { head: "İstidən qızır.", text: "Yalnız yüngül, nəfəs alan parçalar. {low}°C-dən aşağı düşməyəcək." }
+            level1: { head: "Çox soyuqdur. Yaxşı geyinin.", text: "Qalın termal alt paltarı, ciddi qış gödəkçəsi və çəkmə. Bu gün {high}{unit}-dən yuxarı çıxmayacaq." },
+            level2: { head: "Soyuq gün.", text: "Qış gödəkçəsinin altına isti sviter, yaxşı cins. {low}{unit} ilə başlayır, çox da isinmir." },
+            level3: { head: "Serin amma olar.", text: "Yüngül gödəkçə və ya hudi kifayətdir. Axşam {low}{unit}-ə düşəcək — əlavə qat götür." },
+            level4: { head: "Mülayim gün.", text: "Uzun qol və ya yüngül hudi üstündə şalvar. {high}{unit}-ə çatacaq, sonradan gödəkçə yaxşı olar." },
+            level5: { head: "İsti və xoş.", text: "Sadəcə köynək və cins — {high}{unit}-ə qədər rahat gün." },
+            level6: { head: "İstidən qızır.", text: "Yalnız yüngül, nəfəs alan parçalar. {low}{unit}-dən aşağı düşməyəcək." }
         }
     },
 
@@ -234,14 +234,14 @@ const translations = {
             coldExtreme: "Donma noktasına yakın — çok kalın giyin, el ve ayaklarını koru.",
             iceRisk: "0°'nin altında yağış — yollarda buz tutabilir. Yavaş git."
         },
-        story: "Şu an <span class='story-highlight'>{current}°C</span> ve {cond}. Saat {highTime} civarında <span class='story-highlight'>{high}°C</span>'ye çıkacak. {lowTime}'de <span class='story-highlight'>{low}°C</span>'ye düşecek.",
+        story: "Şu an <span class='story-highlight'>{current}{unit}</span> ve {cond}. Saat {highTime} civarında <span class='story-highlight'>{high}{unit}</span>'ye çıkacak. {lowTime}'de <span class='story-highlight'>{low}{unit}</span>'ye düşecek.",
         outfit: {
-            level1: { head: "Dondurucu soğuk. Tam teçhizat.", text: "Kalın termal, ciddi bir kışlık mont ve bot. Bugün {high}°C'yi geçmeyecek." },
-            level2: { head: "Soğuk bir gün.", text: "Kışlık montun altına kalın kazak, düzgün kot. {low}°C ile başlıyor ve çok ısınmıyor." },
-            level3: { head: "Serin ama idare eder.", text: "Hafif ceket veya kapşonlu yeterli. Akşam {low}°C'ye düşecek — ekstra bir katman al." },
-            level4: { head: "Ilık ve rahat.", text: "Uzun kollu tişört veya ince kapşonlu üstüne pantolon. {high}°C'ye çıkacak, sonrası için ceket akıllıca." },
-            level5: { head: "Sıcak ve hoş.", text: "Sadece tişört ve kot — {high}°C'ye kadar güzel bir gün." },
-            level6: { head: "Isınıyor ortalık.", text: "Yalnızca yüngül, nəfəs alan parçalar. {low}°C-dən aşağı düşməyəcək." }
+            level1: { head: "Dondurucu soğuk. Tam teçhizat.", text: "Kalın termal, ciddi bir kışlık mont ve bot. Bugün {high}{unit}'yi geçmeyecek." },
+            level2: { head: "Soğuk bir gün.", text: "Kışlık montun altına kalın kazak, düzgün kot. {low}{unit} ile başlıyor ve çok ısınmıyor." },
+            level3: { head: "Serin ama idare eder.", text: "Hafif ceket veya kapşonlu yeterli. Akşam {low}{unit}'ye düşecek — ekstra bir katman al." },
+            level4: { head: "Ilık ve rahat.", text: "Uzun kollu tişört veya ince kapşonlu üstüne pantolon. {high}{unit}'ye çıkacak, sonrası için ceket akıllıca." },
+            level5: { head: "Sıcak ve hoş.", text: "Sadece tişört ve kot — {high}{unit}'ye kadar güzel bir gün." },
+            level6: { head: "Isınıyor ortalık.", text: "Yalnızca yüngül, nəfəs alan parçalar. {low}{unit}-dən aşağı düşməyəcək." }
         }
     },
 
@@ -316,14 +316,14 @@ const translations = {
             coldExtreme: "Nahe dem Gefrierpunkt — sehr warm anziehen, Hände und Füße schützen.",
             iceRisk: "Niederschlag unter 0° — Glatteis auf Straßen möglich. Langsam fahren."
         },
-        story: "Aktuell sind es <span class='story-highlight'>{current}°C</span> und {cond}. Gegen {highTime} wird es <span class='story-highlight'>{high}°C</span> erreichen. Um {lowTime} fällt es auf <span class='story-highlight'>{low}°C</span>.",
+        story: "Aktuell sind es <span class='story-highlight'>{current}{unit}</span> und {cond}. Gegen {highTime} wird es <span class='story-highlight'>{high}{unit}</span> erreichen. Um {lowTime} fällt es auf <span class='story-highlight'>{low}{unit}</span>.",
         outfit: {
-            level1: { head: "Bitterkalt. Richtig einpacken.", text: "Schwere Thermowäsche, ein echter Wintermantel und Stiefel. Es wird heute nicht über {high}°C klettern." },
-            level2: { head: "Kalter Tag.", text: "Einen warmen Pulli unter den Wintermantel, feste Jeans. Startet bei {low}°C und wird nicht viel wärmer." },
-            level3: { head: "Kühl aber okay.", text: "Eine leichte Jacke oder Hoodie reicht. Später fällt es auf {low}°C — eine Extralage mitnehmen." },
-            level4: { head: "Mild und angenehm.", text: "Langarmshirt oder leichter Hoodie über einer Hose. Es wird {high}°C — für später aber eine Jacke einpacken." },
-            level5: { head: "Warm und schön.", text: "Einfach T-Shirt und Jeans — schöner Tag mit bis zu {high}°C." },
-            level6: { head: "Es wird heiß.", text: "Nur leichte, atmungsaktive Stoffe. Es fällt nicht unter {low}°C." }
+            level1: { head: "Bitterkalt. Richtig einpacken.", text: "Schwere Thermowäsche, ein echter Wintermantel und Stiefel. Es wird heute nicht über {high}{unit} klettern." },
+            level2: { head: "Kalter Tag.", text: "Einen warmen Pulli unter den Wintermantel, feste Jeans. Startet bei {low}{unit} und wird nicht viel wärmer." },
+            level3: { head: "Kühl aber okay.", text: "Eine leichte Jacke oder Hoodie reicht. Später fällt es auf {low}{unit} — eine Extralage mitnehmen." },
+            level4: { head: "Mild und angenehm.", text: "Langarmshirt oder leichter Hoodie über einer Hose. Es wird {high}{unit} — für später aber eine Jacke einpacken." },
+            level5: { head: "Warm und schön.", text: "Einfach T-Shirt und Jeans — schöner Tag mit bis zu {high}{unit}." },
+            level6: { head: "Es wird heiß.", text: "Nur leichte, atmungsaktive Stoffe. Es fällt nicht unter {low}{unit}." }
         }
     },
 
@@ -398,14 +398,14 @@ const translations = {
             coldExtreme: "Proche du point de gel — habillez-vous très chaud, protégez mains et pieds.",
             iceRisk: "Précipitations sous 0° — verglas probable sur les routes. Prudence."
         },
-        story: "Actuellement il fait <span class='story-highlight'>{current}°C</span> et {cond}. Il fera <span class='story-highlight'>{high}°C</span> vers {highTime}. Vers {lowTime}, paf, ça tombe à <span class='story-highlight'>{low}°C</span>.",
+        story: "Actuellement il fait <span class='story-highlight'>{current}{unit}</span> et {cond}. Il fera <span class='story-highlight'>{high}{unit}</span> vers {highTime}. Vers {lowTime}, paf, ça tombe à <span class='story-highlight'>{low}{unit}</span>.",
         outfit: {
-            level1: { head: "Froid glacial. Couvrez-vous bien.", text: "Couches thermiques épaisses, lourd manteau d'hiver et bottes. Ne dépassera pas {high}°C." },
-            level2: { head: "Journée fraîche.", text: "Manteau d'hiver sur un pull chaud et un jean. Commence à {low}°C et ne chauffe pas beaucoup." },
-            level3: { head: "Frais et clair.", text: "Optez pour une veste légère ou un sweat. Il fera {low}°C ce soir, prévoyez une épaisseur de plus." },
-            level4: { head: "Doux et tranquille.", text: "Un t-shirt manches longues ou un sweat fin. Atteint {high}°C, mais gardez une veste légère pour plus tard." },
-            level5: { head: "Chaud et agréable.", text: "Un simple t-shirt et un jean — belle journée montant jusqu'à {high}°C." },
-            level6: { head: "Il commence à faire chaud.", text: "Des tissus légers et respirants uniquement. Ne descendra pas sous {low}°C." }
+            level1: { head: "Froid glacial. Couvrez-vous bien.", text: "Couches thermiques épaisses, lourd manteau d'hiver et bottes. Ne dépassera pas {high}{unit}." },
+            level2: { head: "Journée fraîche.", text: "Manteau d'hiver sur un pull chaud et un jean. Commence à {low}{unit} et ne chauffe pas beaucoup." },
+            level3: { head: "Frais et clair.", text: "Optez pour une veste légère ou un sweat. Il fera {low}{unit} ce soir, prévoyez une épaisseur de plus." },
+            level4: { head: "Doux et tranquille.", text: "Un t-shirt manches longues ou un sweat fin. Atteint {high}{unit}, mais gardez une veste légère pour plus tard." },
+            level5: { head: "Chaud et agréable.", text: "Un simple t-shirt et un jean — belle journée montant jusqu'à {high}{unit}." },
+            level6: { head: "Il commence à faire chaud.", text: "Des tissus légers et respirants uniquement. Ne descendra pas sous {low}{unit}." }
         }
     },
 
@@ -480,14 +480,14 @@ const translations = {
             coldExtreme: "Близко к нулю — одевайтесь очень тепло, защитите руки и ноги.",
             iceRisk: "Осадки при температуре ниже 0° — гололёд на дорогах. Будьте осторожны."
         },
-        story: "Сейчас <span class='story-highlight'>{current}°C</span> и {cond}. Около {highTime} будет <span class='story-highlight'>{high}°C</span>. А вот к {lowTime} температура упадет до <span class='story-highlight'>{low}°C</span>.",
+        story: "Сейчас <span class='story-highlight'>{current}{unit}</span> и {cond}. Около {highTime} будет <span class='story-highlight'>{high}{unit}</span>. А вот к {lowTime} температура упадет до <span class='story-highlight'>{low}{unit}</span>.",
         outfit: {
-            level1: { head: "Серьезный холод. Утепляйтесь.", text: "Плотное термобелье, тяжелая зимняя куртка и ботинки. Выше {high}°C не поднимется." },
-            level2: { head: "Прохладный день.", text: "Теплый свитер под зимнюю куртку и джинсы. Начнется с {low}°C и не особо потеплеет." },
-            level3: { head: "Свежо и бодро.", text: "Легкая куртка или любимое худи. Вечером опустится до {low}°C, обязательно возьмите еще один слой." },
-            level4: { head: "Мягко и комфортно.", text: "Лонгслив или легкое худи с брюками. Поднимется до {high}°C, но позже пригодится легкая накидка." },
-            level5: { head: "Тепло и приятно.", text: "Просто футболка и джинсы — будет тепло весь день, до {high}°C без сюрпризов." },
-            level6: { head: "Становится жарко.", text: "Только легкие, дышащие ткани. Ниже {low}°C не опустится." }
+            level1: { head: "Серьезный холод. Утепляйтесь.", text: "Плотное термобелье, тяжелая зимняя куртка и ботинки. Выше {high}{unit} не поднимется." },
+            level2: { head: "Прохладный день.", text: "Теплый свитер под зимнюю куртку и джинсы. Начнется с {low}{unit} и не особо потеплеет." },
+            level3: { head: "Свежо и бодро.", text: "Легкая куртка или любимое худи. Вечером опустится до {low}{unit}, обязательно возьмите еще один слой." },
+            level4: { head: "Мягко и комфортно.", text: "Лонгслив или легкое худи с брюками. Поднимется до {high}{unit}, но позже пригодится легкая накидка." },
+            level5: { head: "Тепло и приятно.", text: "Просто футболка и джинсы — будет тепло весь день, до {high}{unit} без сюрпризов." },
+            level6: { head: "Становится жарко.", text: "Только легкие, дышащие ткани. Ниже {low}{unit} не опустится." }
         }
     },
 
@@ -562,14 +562,14 @@ const translations = {
             coldExtreme: "Cerca del punto de congelación — abrígate mucho, protege manos y pies.",
             iceRisk: "Precipitación bajo 0° — posible hielo negro en las calles. Ve con cuidado."
         },
-        story: "Ahora mismo hace <span class='story-highlight'>{current}°C</span> con {cond}. Alcanzará <span class='story-highlight'>{high}°C</span> alrededor de {highTime}. A las {lowTime} bajará a <span class='story-highlight'>{low}°C</span>.",
+        story: "Ahora mismo hace <span class='story-highlight'>{current}{unit}</span> con {cond}. Alcanzará <span class='story-highlight'>{high}{unit}</span> alrededor de {highTime}. A las {lowTime} bajará a <span class='story-highlight'>{low}{unit}</span>.",
         outfit: {
-            level1: { head: "Frío extremo. Abrígate.", text: "Capas térmicas gruesas, un buen abrigo de invierno y botas. No pasará de {high}°C hoy." },
-            level2: { head: "Día fresco.", text: "Abrigo sobre un suéter caliente y jeans. El día empieza a {low}°C y no calienta mucho." },
-            level3: { head: "Fresco y claro.", text: "Ve con una chaqueta ligera o sudadera. Esta noche bajará a {low}°C, así que lleva una capa extra." },
-            level4: { head: "Suave y relajado.", text: "Camiseta de manga larga o sudadera fina sobre unos chinos. Llegará a {high}°C, fácil." },
-            level5: { head: "Cálido y agradable.", text: "Sólo camiseta y jeans — clima ideal llegando hasta {high}°C." },
-            level6: { head: "Hace bastante calor.", text: "Sólo tejidos ligeros y transpirables. Pantalones cortos y sandalias. La mínima es {low}°C." }
+            level1: { head: "Frío extremo. Abrígate.", text: "Capas térmicas gruesas, un buen abrigo de invierno y botas. No pasará de {high}{unit} hoy." },
+            level2: { head: "Día fresco.", text: "Abrigo sobre un suéter caliente y jeans. El día empieza a {low}{unit} y no calienta mucho." },
+            level3: { head: "Fresco y claro.", text: "Ve con una chaqueta ligera o sudadera. Esta noche bajará a {low}{unit}, así que lleva una capa extra." },
+            level4: { head: "Suave y relajado.", text: "Camiseta de manga larga o sudadera fina sobre unos chinos. Llegará a {high}{unit}, fácil." },
+            level5: { head: "Cálido y agradable.", text: "Sólo camiseta y jeans — clima ideal llegando hasta {high}{unit}." },
+            level6: { head: "Hace bastante calor.", text: "Sólo tejidos ligeros y transpirables. Pantalones cortos y sandalias. La mínima es {low}{unit}." }
         }
     }
 };

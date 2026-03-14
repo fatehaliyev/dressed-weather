@@ -383,9 +383,9 @@ function computeAndRenderWarnings(ctx) {
 
     if (todayMax >= 35) {
         const ranges = findRanges(temps, v => v >= 35);
-        pushWarn('temp', '🔥', (w.heatExtreme || `Extreme heat — ${todayMax}°C. Stay hydrated.`) + toTimeDetail(ranges));
+        pushWarn('temp', '🔥', (w.heatExtreme || `Extreme heat — ${formatTemp(todayMax)}${currentUnit === 'f' ? '°F' : '°C'}. Stay hydrated.`) + toTimeDetail(ranges));
     } else if (todayMax >= 30) {
-        pushWarn('temp', '☀️', w.heat || `Hot day ahead — peak ${todayMax}°C.`);
+        pushWarn('temp', '☀️', w.heat || `Hot day ahead — peak ${formatTemp(todayMax)}${currentUnit === 'f' ? '°F' : '°C'}.`);
     }
 
     if (todayMin < 3) {
@@ -470,7 +470,11 @@ function renderOutfit(dayIdx, data) {
     const oData = t.outfit[outLevel];
     DOM.outfitHeadline.textContent = oData.head;
 
-    let outfitText = oData.text.replace('{high}', todayMax).replace('{low}', todayMin);
+    let outfitText = oData.text
+        .replace('{high}', formatTemp(todayMax))
+        .replace('{low}', formatTemp(todayMin))
+        .replace(/{unit}/g, currentUnit === 'f' ? '°F' : '°C');
+        
     if (isRaining && outLevel !== 'level1' && outLevel !== 'level2') {
         outfitText += ' ' + (t.warnings.rain || '');
     }
@@ -763,6 +767,7 @@ function renderStory(dayIdx, data) {
         .replace('{highTime}', peakObj.time)
         .replace('{low}',     dropObj.temp)
         .replace('{lowTime}', dropObj.time)
+        .replace(/{unit}/g,   currentUnit === 'f' ? '°F' : '°C')
         + (isToday ? midnightLabel(hoursLeft) : '');
 }
 
@@ -908,10 +913,10 @@ function renderUI(data) {
     renderOutfit(0, data);
 
     renderInsights({
-        temp:      Math.round(current.temperature_2m),
-        feelsLike: Math.round(current.apparent_temperature || current.temperature_2m),
-        min:       Math.round(daily.temperature_2m_min[0]),
-        max:       Math.round(daily.temperature_2m_max[0]),
+        temp:      formatTemp(current.temperature_2m),
+        feelsLike: formatTemp(current.apparent_temperature || current.temperature_2m),
+        min:       formatTemp(daily.temperature_2m_min[0]),
+        max:       formatTemp(daily.temperature_2m_max[0]),
         code:      current.weather_code,
         wind:      current.wind_speed_10m,
         uv:        current.uv_index || 0,
