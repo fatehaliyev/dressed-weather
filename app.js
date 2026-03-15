@@ -768,15 +768,159 @@ function renderStory(dayIdx, data) {
         .replace('{low}',     dropObj.temp)
         .replace('{lowTime}', dropObj.time)
         .replace(/{unit}/g,   currentUnit === 'f' ? '°F' : '°C')
-        + (isToday ? midnightLabel(hoursLeft) : '');
+        + (isToday ? midnightLabel(hoursLeft) : '')
+        + buildWeekNote(dayIdx, data, t);
 }
+
+
+function scoreDay(daily, hourly, idx) {
+    let score = 0;
+    const dayStart = idx * 24;
+    const dayEnd   = Math.min(dayStart + 24, (hourly.time || []).length);
+
+    const maxTemp = daily.temperature_2m_max[idx];
+    const minTemp = daily.temperature_2m_min[idx];
+    const avgTemp = (maxTemp + minTemp) / 2;
+    const swing   = maxTemp - minTemp;
+
+    if      (avgTemp >= 18 && avgTemp <= 24) score += 4;
+    else if (avgTemp >= 12 && avgTemp <  18) score += 3;
+    else if (avgTemp >  24 && avgTemp <= 29) score += 3;
+    else if (avgTemp >=  6 && avgTemp <  12) score += 1;
+    else if (avgTemp >  29 && avgTemp <= 33) score += 1;
+    else if (avgTemp >=  0 && avgTemp <   6) score -= 1;
+    else if (avgTemp >  33 && avgTemp <= 37) score -= 2;
+    else if (avgTemp >  37)                  score -= 4;
+    else if (avgTemp >= -5 && avgTemp <   0) score -= 2;
+    else if (avgTemp <  -5)                  score -= 4;
+
+    if (maxTemp > 38) score -= 2;
+    if (minTemp < -8) score -= 2;
+
+    if      (swing <  6)  score += 2;
+    else if (swing < 10)  score += 1;
+    else if (swing > 15)  score -= 2;
+    else if (swing > 12)  score -= 1;
+
+    const precipPct      = daily.precipitation_probability_max?.[idx] ?? 0;
+    const code           = daily.weather_code[idx];
+    const stormCodes     = [95, 96, 99];
+    const heavyRainCodes = [65, 67, 82];
+    const rainCodes      = [51,53,55,56,57,61,63,65,66,67,80,81,82];
+    const snowCodes      = [71,73,75,77,85,86];
+    const clearCodes     = [0, 1];
+
+    if      (stormCodes.includes(code))                     score -= 6;
+    else if (heavyRainCodes.includes(code))                 score -= 4;
+    else if (rainCodes.includes(code))                      score -= 3;
+    else if (snowCodes.includes(code))                      score -= 3;
+    else if (precipPct > 60)                                score -= 3;
+    else if (precipPct > 35)                                score -= 1;
+    else if (precipPct < 15 && clearCodes.includes(code))  score += 3;
+    else if (precipPct < 15)                                score += 1;
+
+    const winds   = hourly.wind_speed_10m?.slice(dayStart, dayEnd) || [];
+    const maxWind = winds.length ? Math.max(...winds) : 0;
+    const avgWind = winds.length ? winds.reduce((a, b) => a + b, 0) / winds.length : 0;
+
+    if      (maxWind > 70)                   score -= 5;
+    else if (maxWind > 50)                   score -= 3;
+    else if (maxWind > 35)                   score -= 2;
+    else if (maxWind > 25)                   score -= 1;
+    else if (avgWind < 10 && maxWind < 20)   score += 2;
+    else if (maxWind < 25)                   score += 1;
+
+    const uvSlice = hourly.uv_index?.slice(dayStart, dayEnd).filter(v => v >= 0) || [];
+    const maxUV   = uvSlice.length ? Math.max(...uvSlice) : 0;
+
+    if      (maxUV > 10)              score -= 3;
+    else if (maxUV >  7)              score -= 1;
+    else if (maxUV >= 3 && maxUV <= 6) score += 1;
+
+    const humids   = hourly.relative_humidity_2m?.slice(dayStart, dayEnd) || [];
+    const avgHumid = humids.length ? humids.reduce((a, b) => a + b, 0) / humids.length : 50;
+
+    if      (avgHumid > 85 && maxTemp > 26) score -= 3;
+    else if (avgHumid > 85)                 score -= 1;
+    else if (avgHumid < 20)                 score -= 2;
+    else if (avgHumid < 30)                 score -= 1;
+    else if (avgHumid >= 40 && avgHumid <= 60) score += 2;
+    else if (avgHumid >  60 && avgHumid <= 75) score += 1;
+
+    return score;
+}
+
+function computeWeekScores(daily, hourly) {
+    const limit = Math.min(daily.time.length, 7);
+    return Array.from({ length: limit }, (_, i) => scoreDay(daily, hourly, i));
+}
+
+function findBestDayIndex(daily, hourly) {
+    const scores = computeWeekScores(daily, hourly);
+    return scores.indexOf(Math.max(...scores));
+}
+
+function findWorstDayIndex(daily, hourly) {
+    const scores = computeWeekScores(daily, hourly);
+    return scores.indexOf(Math.min(...scores));
+}
+
+function buildWeekNote(dayIdx, data, t) {
+    const wc = t.weekCompare;
+    if (!wc) return '';
+
+    const scores = computeWeekScores(data.daily, data.hourly);
+    if (scores.length < 2) return '';
+
+    const myScore    = scores[dayIdx];
+    const bestScore  = Math.max(...scores);
+    const worstScore = Math.min(...scores);
+    const bestIdx    = scores.indexOf(bestScore);
+    const worstIdx   = scores.indexOf(worstScore);
+
+    const styleBase  = 'font-size:13px;display:block;margin-top:12px;font-family:var(--font-sans);font-style:normal;font-weight:600;letter-spacing:0.3px;';
+    const styleMuted = 'font-size:13px;display:block;margin-top:12px;font-family:var(--font-sans);font-style:normal;font-weight:500;letter-spacing:0.3px;opacity:0.6;';
+
+    const others = scores.filter((_, i) => i !== dayIdx);
+    const secondBest  = Math.max(...others);
+    const secondWorst = Math.min(...others);
+    const avg = scores.reduce((a,b)=>a+b,0)/scores.length;
+
+    if (bestIdx === dayIdx) {
+        const isSimilar = (myScore - secondBest) <= 2;
+        const msg = isSimilar ? wc.best_similar : wc.best_turn;
+        return `<span style="${styleBase}color:var(--accent-gold)">${msg}</span>`;
+    }
+
+    if (worstIdx === dayIdx) {
+        const isSimilar = (secondWorst - myScore) <= 2;
+        const msg = isSimilar ? wc.worst_similar : wc.worst_better;
+        return `<span style="${styleBase}color:var(--warning)">${msg}</span>`;
+    }
+
+    if (bestScore - myScore <= 2 && myScore - avg >= 2) {
+        return `<span style="${styleMuted}">${wc.almost_best}</span>`;
+    }
+
+    if (myScore - worstScore <= 2 && avg - myScore >= 2) {
+        return `<span style="${styleMuted}">${wc.almost_worst}</span>`;
+    }
+
+    return '';
+}
+
 
 // --- Weekly forecast ---
 
-function renderWeeklyForecast(daily, t) {
+
+function renderWeeklyForecast(daily, hourly, t) {
+
     const container = document.getElementById('weekly-forecast');
     if (!container) return;
     container.innerHTML = '';
+
+    const bestDayIdx  = findBestDayIndex(daily, hourly);
+    const worstDayIdx = findWorstDayIndex(daily, hourly);
 
     const allLows  = daily.temperature_2m_min;
     const allHighs = daily.temperature_2m_max;
@@ -853,6 +997,19 @@ function renderWeeklyForecast(daily, t) {
         row.appendChild(iconEl);
         row.appendChild(precipEl);
         row.appendChild(barWrap);
+
+        if (idx === bestDayIdx) {
+            const badge = document.createElement('span');
+            badge.className = 'best-day-badge';
+            badge.textContent = ui.bestDayBadge || '✨ Best Day';
+            row.appendChild(badge);
+        } else if (idx === worstDayIdx) {
+            const badge = document.createElement('span');
+            badge.className = 'worst-day-badge';
+            badge.textContent = ui.worstDayBadge || '⛈️ Worst Day';
+            row.appendChild(badge);
+        }
+
         row.appendChild(chevron);
 
         // Expandable detail panel
@@ -936,7 +1093,7 @@ function renderUI(data) {
     DOM.sunrise.textContent = formatTime(daily.sunrise[0]);
     DOM.sunset.textContent  = formatTime(daily.sunset[0]);
 
-    renderWeeklyForecast(daily, t);
+    renderWeeklyForecast(daily, hourly, t);
 
     DOM.lastUpdated.textContent = t.ui.lastUpdated + formatTime(new Date().toISOString());
 

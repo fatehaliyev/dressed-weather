@@ -154,6 +154,8 @@ header { display: flex; justify-content: space-between; align-items: center; mar
 .forecast-day-high { font-size: 13px; font-weight: 700; color: var(--text-primary); width: 28px; flex-shrink: 0; }
 .forecast-chevron { font-size: 11px; color: var(--text-muted); margin-left: 2px; flex-shrink: 0; transition: transform 0.3s cubic-bezier(0.16,1,0.3,1), color 0.2s; }
 .forecast-day.active .forecast-chevron { transform: rotate(180deg); color: var(--accent-gold); }
+.best-day-badge { display: inline-flex; align-items: center; gap: 4px; background: rgba(100,200,150,0.1); border: 1px solid rgba(100,200,150,0.3); color: #6dc898; font-size: 9px; font-weight: 700; padding: 3px 8px; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.7px; flex-shrink: 0; white-space: nowrap; }
+.worst-day-badge { display: inline-flex; align-items: center; gap: 4px; background: rgba(224,123,74,0.1); border: 1px solid rgba(224,123,74,0.3); color: var(--warning); font-size: 9px; font-weight: 700; padding: 3px 8px; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.7px; flex-shrink: 0; white-space: nowrap; }
 .forecast-detail { overflow: hidden; max-height: 0; transition: max-height 0.4s cubic-bezier(0.16,1,0.3,1); }
 .forecast-detail.open { max-height: 200px; }
 .forecast-detail-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 16px; padding: 12px 8px 16px; }

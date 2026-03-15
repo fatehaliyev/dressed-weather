@@ -13,7 +13,9 @@ const translations = {
             backToToday: "← Back to Today",
             detailCondition: "Condition", detailHigh: "High", detailLow: "Low",
             detailRain: "Rain chance", detailSunrise: "Sunrise", detailSunset: "Sunset",
-            tempUnit: "Temp Unit"
+            tempUnit: "Temp Unit",
+            bestDayBadge: "✨ Best Day",
+            worstDayBadge: "⛈️ Worst Day"
         },
         clothes: {
             thermal: "Thermals", heavyCoat: "Heavy Coat", winterCoat: "Winter Coat",
@@ -70,6 +72,14 @@ const translations = {
             coldExtreme: "Near freezing — dress very warm, cover your extremities.",
             iceRisk: "Freezing rain or snow below 0° — black ice likely on roads. Take it slow."
         },
+        weekCompare: {
+            best_turn:      "Best day of the week — enjoy it before the weather turns.",
+            best_similar:   "Best day of the week, though upcoming days look fine too.",
+            worst_better:   "Worst day of the week — hang in there, it gets better.",
+            worst_similar:  "Worst day of the week, and rough weather might continue.",
+            almost_best:    "One of the best days this week.",
+            almost_worst:   "One of the worst days this week."
+        },
         story: "It's currently <span class='story-highlight'>{current}{unit}</span> and {cond}. It'll peak at <span class='story-highlight'>{high}{unit}</span> around {highTime}. By {lowTime} it drops down to <span class='story-highlight'>{low}{unit}</span>.",
         outfit: {
             level1: { head: "Bitter cold. Gear up.", text: "Heavy thermals, a serious winter coat, and boots. It won't crack {high}{unit} today." },
@@ -95,7 +105,9 @@ const translations = {
             backToToday: "← Bu günə qayıt",
             detailCondition: "Hava", detailHigh: "Maks", detailLow: "Min",
             detailRain: "Yağış ehtimalı", detailSunrise: "Günçıxma", detailSunset: "Günbatma",
-            tempUnit: "Temperatur Vahidi"
+            tempUnit: "Temperatur Vahidi",
+            bestDayBadge: "✨ Ən Yaxşı Gün",
+            worstDayBadge: "⛈️ Ən Pis Gün"
         },
         clothes: {
             thermal: "Termal", heavyCoat: "Qalın Kurtka", winterCoat: "Qış Gödəkçəsi",
@@ -152,6 +164,14 @@ const translations = {
             coldExtreme: "Donma həddindədir — çox qalın geyin, əl-ayaqlarını qoru.",
             iceRisk: "0°-dən aşağıda yağış və ya qar — yollarda buz bağlaya bilər. Ehtiyatlı ol."
         },
+        weekCompare: {
+            best_turn:      "Həftənin ən yaxşı günü — hava pisləşmədən yararlan.",
+            best_similar:   "Həftənin ən yaxşı günü olsa da, qarşıdakı günlər də yaxşıdır.",
+            worst_better:   "Həftənin ən pis günü — darıxma, hava tezliklə düzələcək.",
+            worst_similar:  "Həftənin ən pis günüdür və çətin hava hələ davam edəcək.",
+            almost_best:    "Bu həftənin ən yaxşı günlərindən biri.",
+            almost_worst:   "Bu həftənin ən pis günlərindən biri."
+        },
         story: "Hazırda <span class='story-highlight'>{current}{unit}</span> və {cond}. Saat {highTime}-da <span class='story-highlight'>{high}{unit}</span>-ə çatacaq. {lowTime}-da isə <span class='story-highlight'>{low}{unit}</span>-ə düşəcək.",
         outfit: {
             level1: { head: "Çox soyuqdur. Yaxşı geyinin.", text: "Qalın termal alt paltarı, ciddi qış gödəkçəsi və çəkmə. Bu gün {high}{unit}-dən yuxarı çıxmayacaq." },
@@ -177,7 +197,9 @@ const translations = {
             backToToday: "← Bugüne dön",
             detailCondition: "Durum", detailHigh: "Maks", detailLow: "Min",
             detailRain: "Yağış ihtimali", detailSunrise: "Gündoğumu", detailSunset: "Günbatımı",
-            tempUnit: "Sıcaklık Birimi"
+            tempUnit: "Sıcaklık Birimi",
+            bestDayBadge: "✨ En İyi Gün",
+            worstDayBadge: "⛈️ En Kötü Gün"
         },
         clothes: {
             thermal: "Termal", heavyCoat: "Kalın Mont", winterCoat: "Kışlık Mont",
@@ -234,6 +256,14 @@ const translations = {
             coldExtreme: "Donma noktasına yakın — çok kalın giyin, el ve ayaklarını koru.",
             iceRisk: "0°'nin altında yağış — yollarda buz tutabilir. Yavaş git."
         },
+        weekCompare: {
+            best_turn:      "Haftanın en iyi günü — hava bozmadan tadını çıkar.",
+            best_similar:   "Haftanın en iyi günü olsa da, önümüzdeki günler de fena değil.",
+            worst_better:   "Haftanın en kötü günü — sabret, hava yakında düzeliyor.",
+            worst_similar:  "Haftanın en kötü günü ve zorlu hava devam edecek gibi.",
+            almost_best:    "Bu haftanın en iyi günlerinden biri.",
+            almost_worst:   "Bu haftanın en zorlu günlerinden biri."
+        },
         story: "Şu an <span class='story-highlight'>{current}{unit}</span> ve {cond}. Saat {highTime} civarında <span class='story-highlight'>{high}{unit}</span>'ye çıkacak. {lowTime}'de <span class='story-highlight'>{low}{unit}</span>'ye düşecek.",
         outfit: {
             level1: { head: "Dondurucu soğuk. Tam teçhizat.", text: "Kalın termal, ciddi bir kışlık mont ve bot. Bugün {high}{unit}'yi geçmeyecek." },
@@ -259,7 +289,9 @@ const translations = {
             backToToday: "← Zurück zu Heute",
             detailCondition: "Wetter", detailHigh: "Max", detailLow: "Min",
             detailRain: "Regenwahrscheinlichkeit", detailSunrise: "Sonnenaufgang", detailSunset: "Sonnenuntergang",
-            tempUnit: "Temperatureinheit"
+            tempUnit: "Temperatureinheit",
+            bestDayBadge: "✨ Bester Tag",
+            worstDayBadge: "⛈️ Schlechtester Tag"
         },
         clothes: {
             thermal: "Thermo", heavyCoat: "Dicker Mantel", winterCoat: "Wintermantel",
@@ -316,6 +348,14 @@ const translations = {
             coldExtreme: "Nahe dem Gefrierpunkt — sehr warm anziehen, Hände und Füße schützen.",
             iceRisk: "Niederschlag unter 0° — Glatteis auf Straßen möglich. Langsam fahren."
         },
+        weekCompare: {
+            best_turn:      "Bester Tag der Woche — genieß es, bevor das Wetter umschlägt.",
+            best_similar:   "Bester Tag der Woche, aber die nächsten Tage sehen auch gut aus.",
+            worst_better:   "Schlechtester Tag der Woche — halt durch, es wird besser.",
+            worst_similar:  "Schlechtester Tag der Woche, und das raue Wetter hält wohl an.",
+            almost_best:    "Einer der besten Tage dieser Woche.",
+            almost_worst:   "Einer der schwierigsten Tage dieser Woche."
+        },
         story: "Aktuell sind es <span class='story-highlight'>{current}{unit}</span> und {cond}. Gegen {highTime} wird es <span class='story-highlight'>{high}{unit}</span> erreichen. Um {lowTime} fällt es auf <span class='story-highlight'>{low}{unit}</span>.",
         outfit: {
             level1: { head: "Bitterkalt. Richtig einpacken.", text: "Schwere Thermowäsche, ein echter Wintermantel und Stiefel. Es wird heute nicht über {high}{unit} klettern." },
@@ -341,7 +381,9 @@ const translations = {
             backToToday: "← Retour à Aujourd'hui",
             detailCondition: "Conditions", detailHigh: "Max", detailLow: "Min",
             detailRain: "Prob. pluie", detailSunrise: "Lever", detailSunset: "Coucher",
-            tempUnit: "Unité de Temp."
+            tempUnit: "Unité de Temp.",
+            bestDayBadge: "✨ Meilleure Journée",
+            worstDayBadge: "⛈️ Pire Journée"
         },
         clothes: {
             thermal: "Thermique", heavyCoat: "Manteau Lourd", winterCoat: "Manteau d'Hiver",
@@ -398,6 +440,14 @@ const translations = {
             coldExtreme: "Proche du point de gel — habillez-vous très chaud, protégez mains et pieds.",
             iceRisk: "Précipitations sous 0° — verglas probable sur les routes. Prudence."
         },
+        weekCompare: {
+            best_turn:      "Meilleur jour de la semaine — profitez-en avant le changement de temps.",
+            best_similar:   "Meilleur jour de la semaine, même si les prochains jours sont bien aussi.",
+            worst_better:   "Pire jour de la semaine — courage, le temps va s'améliorer.",
+            worst_similar:  "Pire jour de la semaine, et le mauvais temps semble persister.",
+            almost_best:    "L'une des meilleures journées de cette semaine.",
+            almost_worst:   "L'une des pires journées de cette semaine."
+        },
         story: "Actuellement il fait <span class='story-highlight'>{current}{unit}</span> et {cond}. Il fera <span class='story-highlight'>{high}{unit}</span> vers {highTime}. Vers {lowTime}, paf, ça tombe à <span class='story-highlight'>{low}{unit}</span>.",
         outfit: {
             level1: { head: "Froid glacial. Couvrez-vous bien.", text: "Couches thermiques épaisses, lourd manteau d'hiver et bottes. Ne dépassera pas {high}{unit}." },
@@ -423,7 +473,9 @@ const translations = {
             backToToday: "← Сегодня",
             detailCondition: "Погода", detailHigh: "Макс", detailLow: "Мин",
             detailRain: "Вероятность осадков", detailSunrise: "Рассвет", detailSunset: "Закат",
-            tempUnit: "Един. темп."
+            tempUnit: "Един. темп.",
+            bestDayBadge: "✨ Лучший День",
+            worstDayBadge: "⛈️ Худший День"
         },
         clothes: {
             thermal: "Термобелье", heavyCoat: "Теплая Куртка", winterCoat: "Зимняя Куртка",
@@ -480,6 +532,14 @@ const translations = {
             coldExtreme: "Близко к нулю — одевайтесь очень тепло, защитите руки и ноги.",
             iceRisk: "Осадки при температуре ниже 0° — гололёд на дорогах. Будьте осторожны."
         },
+        weekCompare: {
+            best_turn:      "Лучший день недели — наслаждайтесь, пока погода не испортилась.",
+            best_similar:   "Лучший день недели, хотя ближайшие дни тоже неплохие.",
+            worst_better:   "Худший день недели — держитесь, скоро распогодится.",
+            worst_similar:  "Худший день недели, и сложная погода пока задержится.",
+            almost_best:    "Один из лучших дней на этой неделе.",
+            almost_worst:   "Один из самых сложных дней на этой неделе."
+        },
         story: "Сейчас <span class='story-highlight'>{current}{unit}</span> и {cond}. Около {highTime} будет <span class='story-highlight'>{high}{unit}</span>. А вот к {lowTime} температура упадет до <span class='story-highlight'>{low}{unit}</span>.",
         outfit: {
             level1: { head: "Серьезный холод. Утепляйтесь.", text: "Плотное термобелье, тяжелая зимняя куртка и ботинки. Выше {high}{unit} не поднимется." },
@@ -505,7 +565,9 @@ const translations = {
             backToToday: "← Volver a Hoy",
             detailCondition: "Condición", detailHigh: "Máx", detailLow: "Mín",
             detailRain: "Prob. lluvia", detailSunrise: "Amanecer", detailSunset: "Atardecer",
-            tempUnit: "Unidad Temp."
+            tempUnit: "Unidad Temp.",
+            bestDayBadge: "✨ Mejor Día",
+            worstDayBadge: "⛈️ Peor Día"
         },
         clothes: {
             thermal: "Térmica", heavyCoat: "Abrigo Grueso", winterCoat: "Abrigo de Invierno",
@@ -561,6 +623,14 @@ const translations = {
             humid: "Alta humedad — pegajoso y sofocante pese a la temperatura.",
             coldExtreme: "Cerca del punto de congelación — abrígate mucho, protege manos y pies.",
             iceRisk: "Precipitación bajo 0° — posible hielo negro en las calles. Ve con cuidado."
+        },
+        weekCompare: {
+            best_turn:      "El mejor día de la semana — disfrútalo antes de que el tiempo cambie.",
+            best_similar:   "El mejor día de la semana, aunque los próximos días también pintan bien.",
+            worst_better:   "El peor día de la semana — aguanta, pronto mejorará.",
+            worst_similar:  "El peor día de la semana, y parece que el clima difícil continuará.",
+            almost_best:    "Uno de los mejores días de esta semana.",
+            almost_worst:   "Uno de los peores días de esta semana."
         },
         story: "Ahora mismo hace <span class='story-highlight'>{current}{unit}</span> con {cond}. Alcanzará <span class='story-highlight'>{high}{unit}</span> alrededor de {highTime}. A las {lowTime} bajará a <span class='story-highlight'>{low}{unit}</span>.",
         outfit: {
